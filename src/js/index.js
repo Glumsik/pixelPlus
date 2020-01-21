@@ -42,15 +42,48 @@ let menuList =
       },
       {
         "name": "Мобильная техника",
-        "url": "#"
+        "url": "#",
+        "subMenu":
+            [
+              {
+                "name": "Iphone",
+                "url": "#"
+              }
+            ]
       },
       {
         "name": "Компьютеры",
-        "url": "#"
+        "url": "#",
+        "subMenu":
+            [
+              {
+                "name": "Ноутбуки",
+                "url": "#"
+              },
+              {
+                "name": "Мониторы",
+                "url": "#"
+              }
+            ]
       },
       {
         "name": "Недвижимость",
-        "url": "#"
+        "url": "#",
+        "subMenu":
+            [
+              {
+                "name": "Дома",
+                "url": "#"
+              },
+              {
+                "name": "Квартиры",
+                "url": "#"
+              },
+              {
+                "name": "Участки",
+                "url": "#"
+              }
+            ]
       }
     ];
 
@@ -89,6 +122,7 @@ function Menu(menu, createMenu, menuNav)
   {
     createMenu.appendChild(menuCreator(menu));
     createMenu.addEventListener('click', subMenuDisplay);
+    document.querySelector('SPAN[class="home"]').addEventListener('click', home);
   }
 
   function menuCreator(menu)
@@ -101,7 +135,7 @@ function Menu(menu, createMenu, menuNav)
       let link = document.createElement('a');
       let text = document.createTextNode(item.name);
 
-      link.setAttribute('href', item.url);
+      // link.setAttribute('href', item.url);
       list_item.setAttribute('class', 'dropNone');
 
       list_item.appendChild(link);
@@ -221,6 +255,25 @@ function Menu(menu, createMenu, menuNav)
   }
 
 
+  function home()
+  {
+    if(document.querySelector('LI[class="dropdownShow"]'))
+    {
+      document.querySelector('LI[class="dropdownShow"]').setAttribute('class', 'dropdown');
+    }
+
+
+    let menu = document.querySelector('NAV[class="createMenu"]');
+
+    menu.querySelectorAll('A').forEach((item) =>
+      {
+        item.style.borderBottom = '';
+      });
+
+    menuNav.innerHTML = '';
+  }
+
+
   init();
 }
 
@@ -231,6 +284,7 @@ function Slider(data)
   let rightButton;
   let leftButton ;
   let slider;
+  let photo;
 
   function init()
   {
@@ -253,16 +307,16 @@ function Slider(data)
 
     rightButton = document.querySelector('DIV[class="containerRight"]');
     leftButton = document.querySelector('DIV[class="containerLeft"]');
+    photo = document.getElementById('sliderImg');
   }
 
   let sliderImage = () =>
   {
-    document.getElementById('sliderImg').setAttribute('src', data[numberImage].banner);
-
-    document.getElementById('sliderImg').setAttribute('class', 'sliderImg');
-    setTimeout(function(){document.getElementById('sliderImg').setAttribute('class', 'sliderImgFade')},4000);
+    photo.setAttribute('src', data[numberImage].banner);
+    photo.setAttribute('data-src', numberImage);
+    setTimeout(function(){photo.setAttribute('class', 'sliderImg')},100);
+    setTimeout(function(){photo.setAttribute('class', 'sliderImgFade')},4000);
   };
-
   function imageShow(value, arrow)
   {
     if(arrow === 'right')
@@ -292,20 +346,18 @@ function Slider(data)
     if(value)
     {
       sliderImage();
-
-      setTimeout(function(){imageShow(true, 'right')}, 7000);
+      setTimeout(function(){imageShow(true, 'right');}, 7000);
     }
     else
     {
       sliderImage();
     }
-     console.log(value)
   }
 
 
   function right()
   {
-    imageShow(false, 'right');
+      imageShow(false, 'right');
   }
 
 
